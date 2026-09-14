@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Starlight 7 — Hobbies</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #0d0b1a;
+            background: radial-gradient(ellipse at center, #1a1630 0%, #0a0815 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 1100px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 56px;
+            padding: 40px 35px 35px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+            min-height: 600px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .page { display: none; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(18px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== ОБЛОЖКА ===== */
+        .cover { text-align: center; padding: 30px 10px 20px; }
+
+        .cover h1 {
+            font-size: 56px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(100, 200, 255, 0.8),
+                         0 0 40px rgba(100, 200, 255, 0.6),
+                         0 0 80px rgba(50, 150, 255, 0.4),
+                         0 0 120px rgba(50, 100, 255, 0.3);
+            animation: neonFloat 3s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes neonFloat {
+            0% { transform: translateY(0px);
+                text-shadow: 0 0 20px rgba(100, 200, 255, 0.8), 0 0 40px rgba(100, 200, 255, 0.6), 0 0 80px rgba(50, 150, 255, 0.4); }
+            50% { transform: translateY(-12px);
+                text-shadow: 0 0 30px rgba(150, 220, 255, 1), 0 0 60px rgba(100, 200, 255, 0.8), 0 0 100px rgba(50, 100, 255, 0.6); }
+            100% { transform: translateY(0px);
+                text-shadow: 0 0 20px rgba(100, 200, 255, 0.8), 0 0 40px rgba(100, 200, 255, 0.6), 0 0 80px rgba(50, 150, 255, 0.4); }
+        }
+
+        .cover .sub {
+            font-size: 20px;
+            color: #b5aad0;
+            margin: 8px 0 30px;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .cover-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .cover-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            padding: 18px 44px;
+            border-radius: 80px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            min-width: 220px;
+            animation: floatBtn 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .cover-btn:nth-child(1) { animation-delay: 0s; }
+        .cover-btn:nth-child(2) { animation-delay: 0.6s; }
+        .cover-btn:nth-child(3) { animation-delay: 1.2s; }
+
+        @keyframes floatBtn {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .cover-btn:hover {
+            transform: scale(1.06) translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .cover-btn.vocab-btn {
+            background: linear-gradient(135deg, #4dabf7, #3d7bf7);
+            border-color: #74c0fc;
+            box-shadow: 0 8px 30px rgba(77, 171, 247, 0.3);
+        }
+
+        .cover-btn.grammar-btn {
+            background: linear-gradient(135deg, #51cf66, #2b8a3e);
+            border-color: #8ce99a;
+            box-shadow: 0 8px 30px rgba(81, 207, 102, 0.3);
+        }
+
+        .cover-btn.reading-btn {
+            background: linear-gradient(135deg, #cc5de8, #862e9c);
+            border-color: #da77f2;
+            box-shadow: 0 8px 30px rgba(204, 93, 232, 0.3);
+        }
+
+        .cover-btn.back-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            min-width: 120px;
+            font-size: 16px;
+            padding: 12px 28px;
+            animation: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cover-btn.back-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.04);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #f0e8e0;
+        }
+
+        /* ===== SUB-TABS ===== */
+        .sub-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sub-tab {
+            padding: 10px 28px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+            color: #b5aad0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            backdrop-filter: blur(8px);
+        }
+
+        .sub-tab:hover {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+
+        .sub-tab.active {
+            background: linear-gradient(135deg, #4dabf7, #3d7bf7);
+            border-color: #74c0fc;
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(77, 171, 247, 0.2);
+        }
+
+        #page-reading .sub-tab.active {
+            background: linear-gradient(135deg, #cc5de8, #862e9c);
+            border-color: #da77f2;
+            box-shadow: 0 8px 30px rgba(204, 93, 232, 0.2);
+        }
+
+        .sub-page { display: none; animation: fadeIn 0.3s ease; }
+        .sub-page.active { display: block; }
+
+        /* ===== КАРТИНКА ===== */
+        .floating-image {
+            width: 85%;
+            max-width: 720px;
+            margin: 0 auto 24px;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s;
+            display: block;
+        }
+
+        .floating-image:hover {
+            transform: scale(1.005) translateY(-3px);
+        }
+
+        /* ===== КАРТИНКА С СТИКЕРОМ ===== */
+        .reading-image-wrapper {
+            position: relative;
+            width: 85%;
+            max-width: 720px;
+            margin: 0 auto 24px;
+        }
+
+        .reading-image {
+            width: 100%;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: block;
+        }
+
+        .discussion-sticker {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(26, 22, 40, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px dashed rgba(204, 93, 232, 0.6);
+            border-radius: 24px;
+            padding: 18px 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(204, 93, 232, 0.2);
+            transform: rotate(-1deg);
+            transition: transform 0.3s;
+        }
+
+        .discussion-sticker:hover {
+            transform: rotate(0deg) scale(1.01);
+        }
+
+        .discussion-sticker .sticker-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #da77f2;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 20px rgba(204, 93, 232, 0.4);
+        }
+
+        .discussion-sticker .sticker-questions {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 20px;
+        }
+
+        .discussion-sticker .sticker-questions li {
+            color: #d4d0e0;
+            font-size: 14px;
+            line-height: 1.5;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .discussion-sticker .sticker-questions li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #da77f2;
+            font-weight: 700;
+        }
+
+        @media (max-width: 720px) {
+            .discussion-sticker {
+                position: static;
+                margin-top: 16px;
+                transform: none;
+                border-radius: 20px;
+            }
+            .discussion-sticker .sticker-questions {
+                grid-template-columns: 1fr;
+            }
+            .reading-image-wrapper {
+                width: 95%;
+            }
+        }
+
+        /* ===== КОЛОНКИ ===== */
+        .columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-top: 6px;
+            align-items: stretch;
+        }
+
+        .col {
+            flex: 1 1 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .col h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #d5ccdd;
+            margin-bottom: 16px;
+            border-left: 5px solid #4dabf7;
+            padding-left: 14px;
+            flex-shrink: 0;
+        }
+
+        .btn-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .hobby-btn,
+        .action-btn {
+            padding: 14px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            font-size: 15px;
+            font-weight: 500;
+            color: #ece6f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+        }
+
+        .hobby-btn:hover,
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hobby-btn.selected {
+            background: rgba(77, 171, 247, 0.45);
+            border-color: #4dabf7;
+            box-shadow: 0 0 30px rgba(77, 171, 247, 0.2);
+        }
+
+        .hobby-btn.matched,
+        .action-btn.matched {
+            border-color: currentColor;
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        .hobby-btn.wrong,
+        .action-btn.wrong {
+            background: rgba(199, 74, 74, 0.4);
+            border-color: #c74a4a;
+            animation: shake 0.25s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* ===== SORT ===== */
+        .sort-jobs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            border: 2px dashed rgba(255, 255, 255, 0.06);
+            min-height: 70px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sort-job-item {
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: grab;
+            transition: all 0.2s;
+            user-select: none;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .sort-job-item:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .sort-job-item:active { cursor: grabbing; }
+        .sort-job-item.dragging { opacity: 0.4; }
+
+        .sort-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            width: 100%;
+        }
+
+        .sort-category {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 16px;
+            min-height: 120px;
+            transition: all 0.2s;
+        }
+
+        .sort-category.drag-over {
+            border-color: #4dabf7;
+            background: rgba(77, 171, 247, 0.05);
+        }
+
+        .sort-category h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+            letter-spacing: 0.5px;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .sort-category .dropped-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 40px;
+        }
+
+        .sort-category .dropped-item {
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            font-size: 13px;
+            color: #ece6f0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .sort-category .dropped-item .remove-btn {
+            cursor: pointer;
+            opacity: 0.5;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sort-category .dropped-item .remove-btn:hover {
+            opacity: 1;
+            color: #ff6b6b;
+        }
+
+        /* ===== STATIVE SORT ===== */
+        .stative-sort-container,
+        .timeline-sort-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            border: 2px dashed rgba(255, 255, 255, 0.06);
+            min-height: 70px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .stative-word-btn,
+        .timeline-word-btn {
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .stative-word-btn:hover,
+        .timeline-word-btn:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .stative-word-btn.selected,
+        .timeline-word-btn.selected {
+            background: rgba(77, 171, 247, 0.45);
+            border-color: #4dabf7;
+            box-shadow: 0 0 30px rgba(77, 171, 247, 0.3);
+            transform: scale(1.08);
+        }
+
+        .stative-word-btn.sorted,
+        .timeline-word-btn.sorted {
+            opacity: 0.4;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .stative-categories,
+        .timeline-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .timeline-categories {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .stative-category,
+        .timeline-category {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 16px;
+            min-height: 100px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .stative-category:hover,
+        .timeline-category:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stative-category h4,
+        .timeline-category h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+            letter-spacing: 0.5px;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .stative-category .dropped-items,
+        .timeline-category .dropped-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 40px;
+        }
+
+        .stative-category .dropped-item,
+        .timeline-category .dropped-item {
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            font-size: 13px;
+            color: #ece6f0;
+            font-weight: 500;
+        }
+
+        .stative-feedback {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #b5aad0;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 16px;
+        }
+
+        .reset-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 34px;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #d5ccdd;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: scale(1.02);
+        }
+
+        .score {
+            font-size: 16px;
+            color: #b5aad0;
+            font-weight: 500;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 1px;
+        }
+
+        /* ===== ГРАММАТИКА ===== */
+        .grammar-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .grammar-tab {
+            padding: 12px 30px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.04);
+            color: #b5aad0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            backdrop-filter: blur(8px);
+        }
+
+        .grammar-tab:hover { background: rgba(255, 255, 255, 0.10); }
+
+        .grammar-tab.active {
+            background: linear-gradient(135deg, #51cf66, #2b8a3e);
+            border-color: #8ce99a;
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(81, 207, 102, 0.2);
+        }
+
+        .grammar-content { display: none; animation: fadeIn 0.3s ease; }
+        .grammar-content.active { display: block; }
+
+        .rule {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 24px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid #51cf66;
+        }
+
+        .rule h3 {
+            color: #e8dcc8;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .rule p, .rule li {
+            color: #cbc0d6;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .rule ul { list-style: none; padding: 0; }
+        .rule ul li::before { content: "▸ "; color: #51cf66; }
+
+        .rule .example {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #d4d0e0;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 20px 24px;
+            margin-top: 16px;
+        }
+
+        .exercise h4 {
+            color: #d5ccdd;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .hint-box {
+            background: rgba(77, 171, 247, 0.1);
+            border-left: 4px solid #4dabf7;
+            border-radius: 16px;
+            padding: 14px 20px;
+            margin-bottom: 16px;
+            color: #d4d0e0;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .hint-box strong {
+            color: #74c0fc;
+        }
+
+        .hint-box .model {
+            display: block;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #d4d0e0;
+            margin-top: 8px;
+        }
+
+        .ex-item {
+            margin-bottom: 10px;
+            color: #cbc0d6;
+            font-size: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ex-item input {
+            padding: 4px 8px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            text-align: center;
+            width: 140px;
+            transition: 0.2s;
+        }
+
+        .ex-item input:focus {
+            border-color: #51cf66;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .ex-feedback {
+            margin-left: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ex-feedback.correct { color: #51cf66; }
+        .ex-feedback.wrong { color: #ff6b6b; }
+
+        .check-ex-btn {
+            padding: 8px 24px;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(135deg, #51cf66, #2b8a3e);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+
+        .check-ex-btn:hover { transform: scale(1.04); }
+
+        /* ===== ЧТЕНИЕ ===== */
+        .reading-text {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 24px;
+            padding: 24px 28px;
+            margin-bottom: 20px;
+            border-left: 4px solid #cc5de8;
+            line-height: 1.8;
+            color: #d4d0e0;
+            font-size: 15px;
+        }
+
+        .reading-text h3 {
+            color: #e8dcc8;
+            font-size: 22px;
+            margin-bottom: 14px;
+        }
+
+        .reading-text p { margin-bottom: 12px; }
+
+        .reading-text .word {
+            color: #da77f2;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px dashed #da77f2;
+            transition: 0.2s;
+        }
+
+        .reading-text .word:hover {
+            color: #fff;
+            background: rgba(204, 93, 232, 0.2);
+        }
+
+        .tf-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            color: #cbc0d6;
+            font-size: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tf-item .tf-q { flex: 1; min-width: 200px; }
+
+        .tf-btn {
+            padding: 6px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.05);
+            color: #cbc0d6;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tf-btn:hover { background: rgba(255, 255, 255, 0.12); }
+
+        .tf-btn.selected {
+            background: rgba(204, 93, 232, 0.4);
+            border-color: #cc5de8;
+            color: #fff;
+        }
+
+        .tf-btn.correct {
+            background: rgba(81, 207, 102, 0.4);
+            border-color: #51cf66;
+            color: #fff;
+        }
+
+        .tf-btn.wrong {
+            background: rgba(199, 74, 74, 0.4);
+            border-color: #c74a4a;
+            color: #fff;
+        }
+
+        .comp-item {
+            margin-bottom: 14px;
+            color: #cbc0d6;
+            font-size: 15px;
+        }
+
+        .comp-item textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            resize: vertical;
+            margin-top: 6px;
+            font-family: inherit;
+        }
+
+        .comp-item textarea:focus {
+            border-color: #cc5de8;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 720px) {
+            .app { padding: 22px 16px 24px; border-radius: 32px; }
+            .cover h1 { font-size: 36px; }
+            .cover-btn { min-width: 140px; padding: 14px 28px; font-size: 18px; }
+            .page-header h2 { font-size: 22px; }
+            .col { flex: 1 1 100%; }
+            .sort-categories { grid-template-columns: 1fr 1fr; }
+            .stative-categories { grid-template-columns: 1fr 1fr; }
+            .timeline-categories { grid-template-columns: 1fr 1fr; }
+            .floating-image { width: 95%; }
+        }
+
+        @media (max-width: 480px) {
+            .cover h1 { font-size: 28px; }
+            .cover .sub { font-size: 16px; }
+            .cover-btn { min-width: 100%; font-size: 16px; }
+            .page-header { flex-direction: column; align-items: stretch; text-align: center; }
+            .sort-categories { grid-template-columns: 1fr; }
+            .stative-categories { grid-template-columns: 1fr; }
+            .timeline-categories { grid-template-columns: 1fr; }
+            .grammar-tab { font-size: 14px; padding: 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app" id="app">
+
+        <!-- ================= ОБЛОЖКА ================= -->
+        <div class="page active" id="page-cover">
+            <div class="cover">
+                <h1>Hobbies</h1>
+                <div class="sub">Starlight 7 • Module 1b</div>
+                <div class="cover-buttons">
+                    <button class="cover-btn vocab-btn" data-page="vocab">📋 Vocabulary</button>
+                    <button class="cover-btn grammar-btn" data-page="grammar">📝 Grammar</button>
+                    <button class="cover-btn reading-btn" data-page="reading">📖 Reading</button>
+                </div>
+                <div style="margin-top:50px;font-size:14px;color:rgba(255,255,255,0.15);">✦ click to start ✦</div>
+            </div>
+        </div>
+
+        <!-- ================= VOCABULARY ================= -->
+        <div class="page" id="page-vocab">
+            <div class="page-header">
+                <h2>📋 Vocabulary</h2>
+                <button class="cover-btn back-btn" data-page="cover">← Back</button>
+            </div>
+
+            <img class="floating-image" src="hobbies.png" alt="Hobbies collage" onerror="this.style.display='none'" />
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-sub="match">🔗 Match</button>
+                <button class="sub-tab" data-sub="sort">📊 Sort</button>
+            </div>
+
+            <!-- Match -->
+            <div class="sub-page active" id="sub-match">
+                <div class="columns">
+                    <div class="col">
+                        <h3>🎯 Hobbies</h3>
+                        <div id="hobbiesContainer" class="btn-grid"></div>
+                    </div>
+                    <div class="col">
+                        <h3>⚡ What they do</h3>
+                        <div id="actionsContainer" class="btn-grid"></div>
+                    </div>
+                </div>
+                <div class="footer-row">
+                    <button class="reset-btn" id="resetMatchBtn">⟳ Start over</button>
+                    <span class="score" id="matchScore">Matches: 0 / 5</span>
+                </div>
+            </div>
+
+            <!-- Sort -->
+            <div class="sub-page" id="sub-sort">
+                <div style="margin-bottom:12px;color:#b5aad0;font-size:15px;">
+                    <strong>Look at the hobbies.</strong> Drag each hobby to the correct category.
+                    A hobby can be in <strong>several</strong> categories.
+                </div>
+
+                <div class="sort-jobs" id="sortPool"></div>
+                <div class="sort-categories" id="sortCategories"></div>
+
+                <div class="footer-row">
+                    <button class="reset-btn" id="resetSortBtn">⟳ Reset sorting</button>
+                </div>
+            </div>
+
+            <div class="footer-note">✧ Starlight 7 • Module 1b • Hobbies ✧</div>
+        </div>
+
+        <!-- ================= GRAMMAR ================= -->
+        <div class="page" id="page-grammar">
+            <div class="page-header">
+                <h2>📝 Grammar</h2>
+                <button class="cover-btn back-btn" data-page="cover">← Back</button>
+            </div>
+
+            <div class="grammar-tabs">
+                <button class="grammar-tab active" data-grammar="stative">Stative verbs</button>
+                <button class="grammar-tab" data-grammar="present">Present Simple vs Continuous</button>
+            </div>
+
+            <!-- ===== STATIVE VERBS ===== -->
+            <div class="grammar-content active" id="grammar-stative">
+                <div class="rule">
+                    <h3>Stative verbs</h3>
+                    <p>State verbs describe <strong>states, feelings, thoughts, or possessions</strong>. They are <strong>NOT</strong> usually used in Continuous forms.</p>
+                    <ul>
+                        <li><strong>Feelings:</strong> like, love, hate, prefer, want, need</li>
+                        <li><strong>Thoughts:</strong> know, understand, believe, think, remember, forget, mean</li>
+                        <li><strong>Senses:</strong> see, hear, smell, taste, feel</li>
+                        <li><strong>Possession:</strong> have, own, belong, contain</li>
+                    </ul>
+                    <span class="example">I <strong>want</strong> to be a UFO hunter. (NOT: I am wanting)</span>
+                    <br><br>
+                    <p><strong>Some verbs can be both stative and dynamic</strong> — with a difference in meaning:</p>
+                    <ul>
+                        <li><strong>think</strong> — I <strong>think</strong> he's clever. (believe) / I <strong>am thinking</strong> of joining a UFO club. (considering)</li>
+                        <li><strong>have</strong> — He <strong>has</strong> a telescope. (possess) / He <strong>is having</strong> a look at the sky. (action)</li>
+                        <li><strong>see</strong> — I <strong>see</strong> a strange object. (perceive) / I <strong>am seeing</strong> Paula later today. (meet)</li>
+                        <li><strong>taste</strong> — The food <strong>tastes</strong> delicious. (state) / The cook <strong>is tasting</strong> the food. (action)</li>
+                        <li><strong>smell</strong> — It <strong>smells</strong> strange. (state) / She <strong>is smelling</strong> the flowers. (action)</li>
+                        <li><strong>look</strong> — He <strong>looks</strong> good. (appear) / What <strong>are</strong> you <strong>looking</strong> at? (action)</li>
+                    </ul>
+                </div>
+
+                <!-- SORT -->
+                <div class="exercise">
+                    <h4>🎯 Exercise 1: Sort the verbs — Stative, Dynamic, or Both.</h4>
+                    <div style="color:#b5aad0;font-size:14px;margin-bottom:12px;">
+                        Click a verb, then click the correct category. Some verbs can be <strong>Both</strong>.
+                    </div>
+                    <div class="stative-sort-container" id="stativePool"></div>
+                    <div class="stative-categories" id="stativeCategories"></div>
+                    <div class="footer-row" style="margin-top:16px;padding-top:16px;">
+                        <button class="reset-btn" id="resetStativeSortBtn">⟳ Reset sorting</button>
+                        <span class="score" id="stativeSortScore">Sorted: 0 / 20</span>
+                    </div>
+                    <div class="stative-feedback" id="stativeSortFeedback"></div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise" style="margin-top:20px;">
+                    <h4>📝 Exercise 2: Choose the correct form (stative or dynamic).</h4>
+                    <div class="ex-item"><span>1. I</span><input type="text" class="ex-input" data-answer="think" placeholder="..." /><span><strong>(think)</strong> it's a UFO.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>2. I</span><input type="text" class="ex-input" data-answer="am thinking" placeholder="..." /><span><strong>(think)</strong> of joining a UFO club.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>3. He</span><input type="text" class="ex-input" data-answer="has" placeholder="..." /><span><strong>(have)</strong> a telescope.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>4. He</span><input type="text" class="ex-input" data-answer="is having" placeholder="..." /><span><strong>(have)</strong> a look at the sky.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>5. I</span><input type="text" class="ex-input" data-answer="see" placeholder="..." /><span><strong>(see)</strong> a strange object.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>6. I</span><input type="text" class="ex-input" data-answer="am seeing" placeholder="..." /><span><strong>(see)</strong> Paula later today.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>7. The food</span><input type="text" class="ex-input" data-answer="tastes" placeholder="..." /><span><strong>(taste)</strong> delicious.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>8. The cook</span><input type="text" class="ex-input" data-answer="is tasting" placeholder="..." /><span><strong>(taste)</strong> the food.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>9. It</span><input type="text" class="ex-input" data-answer="smells" placeholder="..." /><span><strong>(smell)</strong> strange.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>10. She</span><input type="text" class="ex-input" data-answer="is smelling" placeholder="..." /><span><strong>(smell)</strong> the flowers.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>11. He</span><input type="text" class="ex-input" data-answer="looks" placeholder="..." /><span><strong>(look)</strong> good.</span><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>12. What</span><input type="text" class="ex-input" data-answer="are you looking" placeholder="..." /><span><strong>(you/look)</strong> at?</span><span class="ex-feedback"></span></div>
+                    <button class="check-ex-btn" id="checkStativeExtraBtn">✅ Check all</button>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise" style="margin-top:20px;">
+                    <h4>📝 Exercise 3: Correct the mistakes.</h4>
+                    <div class="ex-item"><span>1. I am wanting to become a UFO hunter.</span><input type="text" class="ex-input" data-answer="I want to become a UFO hunter." placeholder="..." style="width:320px;" /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>2. She is knowing the answer.</span><input type="text" class="ex-input" data-answer="She knows the answer." placeholder="..." style="width:320px;" /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>3. They are needing new equipment.</span><input type="text" class="ex-input" data-answer="They need new equipment." placeholder="..." style="width:320px;" /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>4. He is understanding the instructions.</span><input type="text" class="ex-input" data-answer="He understands the instructions." placeholder="..." style="width:320px;" /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>5. We are believing in our team.</span><input type="text" class="ex-input" data-answer="We believe in our team." placeholder="..." style="width:320px;" /><span class="ex-feedback"></span></div>
+                    <button class="check-ex-btn" id="checkStativeMistakesBtn">✅ Check all</button>
+                </div>
+            </div>
+
+            <!-- ===== PRESENT SIMPLE vs CONTINUOUS ===== -->
+            <div class="grammar-content" id="grammar-present">
+                <div class="rule">
+                    <h3>Present Simple vs Present Continuous</h3>
+                    <p><strong>Present Simple</strong> — permanent states, facts, habits, timetables.</p>
+                    <ul>
+                        <li>Nick <strong>comes</strong> from the USA.</li>
+                        <li>He <strong>goes</strong> to a UFO hotspot every weekend.</li>
+                        <li>The train <strong>leaves</strong> at 7 pm.</li>
+                    </ul>
+                    <p style="margin-top:8px;"><strong>Time expressions:</strong> every day, on Mondays, often, usually, always, sometimes.</p>
+                    <br>
+                    <p><strong>Present Continuous</strong> — actions happening now/around the time of speaking, future arrangements, temporary situations.</p>
+                    <ul>
+                        <li>Nick <strong>is watching</strong> the sky right now.</li>
+                        <li>He <strong>is meeting</strong> his UFO club tonight.</li>
+                        <li>Jane <strong>is working</strong> as a waitress for the summer.</li>
+                    </ul>
+                    <p style="margin-top:8px;"><strong>Time expressions:</strong> now, at the moment, at present, tonight, this week.</p>
+                    <br>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:16px;padding:12px 16px;margin-top:6px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div><strong>Present Simple</strong></div>
+                            <div><strong>Present Continuous</strong></div>
+                            <div style="border-top:1px solid rgba(255,255,255,0.05);grid-column:1/3;margin:2px 0;"></div>
+                            <div><span style="color:#4dabf7;">+</span> I/You/We/They <strong>work</strong><br>He/She/It <strong>works</strong></div>
+                            <div><span style="color:#4dabf7;">+</span> I <strong>am working</strong><br>He/She/It <strong>is working</strong><br>You/We/They <strong>are working</strong></div>
+                            <div><span style="color:#ff6b6b;">−</span> I/You/We/They <strong>don't work</strong><br>He/She/It <strong>doesn't work</strong></div>
+                            <div><span style="color:#ff6b6b;">−</span> I <strong>am not working</strong><br>He/She/It <strong>isn't working</strong><br>You/We/They <strong>aren't working</strong></div>
+                            <div><span style="color:#fcc419;">?</span> <strong>Do</strong> I/you/we/they work?<br><strong>Does</strong> he/she/it work?</div>
+                            <div><span style="color:#fcc419;">?</span> <strong>Am</strong> I working?<br><strong>Is</strong> he/she/it working?<br><strong>Are</strong> you/we/they working?</div>
+                        </div>
+                    </div>
+                    <span class="example" style="margin-top:12px;">He <strong>goes</strong> UFO hunting every weekend. / He <strong>is watching</strong> the sky now.</span>
+                </div>
+
+                <!-- SORT: Reasons -->
+                <div class="exercise">
+                    <h4>🎯 Exercise 1: Sort the reasons — Present Simple or Present Continuous?</h4>
+                    <div style="color:#b5aad0;font-size:14px;margin-bottom:12px;">
+                        Click a reason, then click the correct category.
+                    </div>
+                    <div class="timeline-sort-container" id="timelinePool"></div>
+                    <div class="timeline-categories" id="timelineCategories"></div>
+                    <div class="footer-row" style="margin-top:16px;padding-top:16px;">
+                        <button class="reset-btn" id="resetTimelineSortBtn">⟳ Reset sorting</button>
+                        <span class="score" id="timelineSortScore">Sorted: 0 / 6</span>
+                    </div>
+                    <div class="stative-feedback" id="timelineSortFeedback"></div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise" style="margin-top:20px;">
+                    <h4>📝 Exercise 2: Put the verbs into Present Simple or Present Continuous.</h4>
+                    <div class="hint-box">
+                        <strong>💡 Hint:</strong> Explain your choice orally. Look at the Sort above and use the model:
+                        <span class="model">In sentence 1, I use Present Simple because it's a habit.</span>
+                    </div>
+                    <div class="ex-item"><span>1. Nick usually <strong>(go)</strong></span><input type="text" class="ex-input" data-answer="goes" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>2. Right now he <strong>(watch)</strong></span><input type="text" class="ex-input" data-answer="is watching" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>3. He <strong>(believe)</strong> that UFOs exist.</span><input type="text" class="ex-input" data-answer="believes" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>4. Look! He <strong>(interview)</strong> a witness.</span><input type="text" class="ex-input" data-answer="is interviewing" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>5. The UFO club <strong>(meet)</strong> every Friday.</span><input type="text" class="ex-input" data-answer="meets" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>6. Tonight they <strong>(go)</strong> to a UFO hotspot.</span><input type="text" class="ex-input" data-answer="are going" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>7. He <strong>(analyse)</strong> videos at the moment.</span><input type="text" class="ex-input" data-answer="is analysing" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>8. Nick <strong>(not / understand)</strong> the strange signal.</span><input type="text" class="ex-input" data-answer="doesn't understand" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>9. He <strong>(look)</strong> at the sky right now.</span><input type="text" class="ex-input" data-answer="is looking" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>10. He usually <strong>(record)</strong> information on his laptop.</span><input type="text" class="ex-input" data-answer="records" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>11. The train <strong>(leave)</strong> at 7 pm.</span><input type="text" class="ex-input" data-answer="leaves" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>12. Jane <strong>(work)</strong> as a waitress for the summer.</span><input type="text" class="ex-input" data-answer="is working" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>13. I <strong>(meet)</strong> Brian for dinner tonight.</span><input type="text" class="ex-input" data-answer="am meeting" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>14. She usually <strong>(go)</strong> to the club on Fridays.</span><input type="text" class="ex-input" data-answer="goes" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <div class="ex-item"><span>15. Nick <strong>(come)</strong> from the USA.</span><input type="text" class="ex-input" data-answer="comes" placeholder="..." /><span class="ex-feedback"></span></div>
+                    <button class="check-ex-btn" id="checkPresentBtn">✅ Check all</button>
+                </div>
+            </div>
+
+            <div class="footer-note" style="margin-top:30px;">✧ Grammar reference • Starlight 7 • Module 1b ✧</div>
+        </div>
+
+        <!-- ================= READING ================= -->
+        <div class="page" id="page-reading">
+            <div class="page-header">
+                <h2>📖 Reading</h2>
+                <button class="cover-btn back-btn" data-page="cover">← Back</button>
+            </div>
+
+            <!-- Картинка со стикером -->
+            <div class="reading-image-wrapper">
+                <img class="reading-image" src="ufo-hunter.png" alt="UFO Hunter illustration" onerror="this.style.display='none'" />
+                <div class="discussion-sticker">
+                    <div class="sticker-title">💬 Look & Discuss</div>
+                    <ul class="sticker-questions">
+                        <li>What can you see in the picture?</li>
+                        <li>Who is the person?</li>
+                        <li>What is he doing?</li>
+                        <li>What equipment can you see?</li>
+                        <li>What do you think his hobby is?</li>
+                        <li>Would you like to try it? Why? / Why not?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-sub="pre-reading">🔍 Pre-reading</button>
+                <button class="sub-tab" data-sub="reading-text">📖 Reading</button>
+                <button class="sub-tab" data-sub="post-reading">✍️ Post-reading</button>
+            </div>
+
+            <!-- PRE-READING -->
+            <div class="sub-page active" id="sub-pre-reading">
+                <div class="exercise">
+                    <h4>🔗 Match the words from the text with their meanings.</h4>
+                    <div class="columns" style="margin-top:12px;">
+                        <div class="col">
+                            <h3>🛸 Words</h3>
+                            <div id="ufoWordsContainer" class="btn-grid"></div>
+                        </div>
+                        <div class="col">
+                            <h3>💡 Meanings</h3>
+                            <div id="ufoMeaningsContainer" class="btn-grid"></div>
+                        </div>
+                    </div>
+                    <div class="footer-row">
+                        <button class="reset-btn" id="resetUfoMatchBtn">⟳ Start over</button>
+                        <span class="score" id="ufoMatchScore">Matches: 0 / 9</span>
+                    </div>
+                </div>
+                <div class="footer-note">✧ Pre-reading • UFO Hunter ✧</div>
+            </div>
+
+            <!-- READING TEXT -->
+            <div class="sub-page" id="sub-reading-text">
+                <div class="reading-text">
+                    <h3>UFO Hunter!</h3>
+                    <p>A strange shape is moving across the sky. Is it a bird? Is it an aeroplane? Or is it a UFO? Nick Porter is <span class="word" data-word="fascinated">fascinated</span> by the possibility of life on other planets, so in his free time he tries to find out what these objects are. We asked him some questions about his unusual hobby.</p>
+                    <p><strong>So, Nick, why are you interested in UFOs?</strong><br>
+                    Well, thousands of people see strange objects in the sky all over the world. Most of these are planets, meteors, or military planes — but what about the rest? I'm a very <span class="word" data-word="curious">curious</span> person, so I want to find an explanation!</p>
+                    <p><strong>And what exactly does your hobby involve?</strong><br>
+                    Well, I started a UFO club and we mostly <span class="word" data-word="investigate">investigate</span> sightings. We interview witnesses and <span class="word" data-word="analyse">analyse</span> videos and photos. Sometimes we go out to a UFO <span class="word" data-word="hotspot">hotspot</span>, too. In fact, we're going out tonight. We usually go high up on a rooftop or a hillside. If we see something strange, we record as much information as we can. We use camcorders, cameras, telescopes, and other <span class="word" data-word="device">devices</span>. Then we analyse the information on our laptops.</p>
+                    <p><strong>Maybe some of our readers are thinking about taking up UFO hunting now! What advice do you have for them?</strong><br>
+                    Well, anyone can become a UFO hunter. You just need to be enthusiastic and patient. You also need to join a local UFO club. This way, you find out where the UFO hotspots are, and you have witnesses if you spot something.</p>
+                    <p>So, what are you waiting for? UFO hunting is a lot of fun, and you never know — you might just turn science fiction into science fact!</p>
+                </div>
+                <div class="footer-note">✧ Reading • UFO Hunter ✧</div>
+            </div>
+
+            <!-- POST-READING -->
+            <div class="sub-page" id="sub-post-reading">
+                <!-- GAP-FILL -->
+                <div class="exercise">
+                    <h4>✍️ Exercise 1: Complete the sentences with the words from the box.</h4>
+                    <div style="background:rgba(255,255,255,0.04);border-radius:20px;padding:14px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:10px;font-size:14px;color:#da77f2;font-weight:600;">
+                        <span>fascinated</span>
+                        <span>curious</span>
+                        <span>investigate</span>
+                        <span>sighting</span>
+                        <span>witness</span>
+                        <span>analyse</span>
+                        <span>hotspot</span>
+                        <span>device</span>
+                        <span>take up</span>
+                    </div>
+                    <div id="gapContainer"></div>
+                    <button class="check-ex-btn" id="checkGapBtn" style="margin-top:16px;">✅ Check all</button>
+                </div>
+
+                <!-- TRUE/FALSE -->
+                <div class="exercise" style="margin-top:24px;">
+                    <h4>📝 Exercise 2: Mark the statements as T (true), F (false) or NS (not stated).</h4>
+                    <div class="tf-item"><span class="tf-q">1. Nick Porter is interested in UFOs.</span>
+                        <button class="tf-btn" data-tf="true" data-correct="T">T</button>
+                        <button class="tf-btn" data-tf="false" data-correct="T">F</button>
+                        <button class="tf-btn" data-tf="ns" data-correct="T">NS</button>
+                    </div>
+                    <div class="tf-item"><span class="tf-q">2. Most strange objects in the sky are UFOs.</span>
+                        <button class="tf-btn" data-tf="true" data-correct="F">T</button>
+                        <button class="tf-btn" data-tf="false" data-correct="F">F</button>
+                        <button class="tf-btn" data-tf="ns" data-correct="F">NS</button>
+                    </div>
+                    <div class="tf-item"><span class="tf-q">3. Nick's UFO club mostly investigates sightings.</span>
+                        <button class="tf-btn" data-tf="true" data-correct="T">T</button>
+                        <button class="tf-btn" data-tf="false" data-correct="T">F</button>
+                        <button class="tf-btn" data-tf="ns" data-correct="T">NS</button>
+                    </div>
+                    <div class="tf-item"><span class="tf-q">4. They go out to UFO hotspots every night.</span>
+                        <button class="tf-btn" data-tf="true" data-correct="F">T</button>
+                        <button class="tf-btn" data-tf="false" data-correct="F">F</button>
+                        <button class="tf-btn" data-tf="ns" data-correct="F">NS</button>
+                    </div>
+                    <div class="tf-item"><span class="tf-q">5. Nick thinks anyone can become a UFO hunter.</span>
+                        <button class="tf-btn" data-tf="true" data-correct="T">T</button>
+                        <button class="tf-btn" data-tf="false" data-correct="T">F</button>
+                        <button class="tf-btn" data-tf="ns" data-correct="T">NS</button>
+                    </div>
+                    <div class="tf-item"><span class="tf-q">6. UFO hunting is expensive.</span>
+                        <button class="tf-btn" data-tf="true" data-correct="NS">T</button>
+                        <button class="tf-btn" data-tf="false" data-correct="NS">F</button>
+                        <button class="tf-btn" data-tf="ns" data-correct="NS">NS</button>
+                    </div>
+                </div>
+
+                <!-- COMPREHENSION -->
+                <div class="exercise" style="margin-top:24px;">
+                    <h4>✍️ Exercise 3: Answer the questions in your own words.</h4>
+                    <div class="comp-item">
+                        <div>1. What is Nick fascinated by?</div>
+                        <textarea placeholder="Write your answer..."></textarea>
+                    </div>
+                    <div class="comp-item">
+                        <div>2. What does Nick's UFO club do?</div>
+                        <textarea placeholder="Write your answer..."></textarea>
+                    </div>
+                    <div class="comp-item">
+                        <div>3. What equipment do they use?</div>
+                        <textarea placeholder="Write your answer..."></textarea>
+                    </div>
+                    <div class="comp-item">
+                        <div>4. What advice does Nick give to new UFO hunters?</div>
+                        <textarea placeholder="Write your answer..."></textarea>
+                    </div>
+                    <div class="comp-item">
+                        <div>5. Would you like to take up UFO hunting? Why? / Why not?</div>
+                        <textarea placeholder="Write your answer..."></textarea>
+                    </div>
+                </div>
+                <div class="footer-note">✧ Post-reading • UFO Hunter ✧</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ================= SOUNDS =================
+        function playSound(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'click') {
+                    osc.frequency.value = 800;
+                    gain.gain.value = 0.08;
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.06);
+                } else if (type === 'success') {
+                    osc.frequency.value = 1200;
+                    gain.gain.value = 0.10;
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.12);
+                    const osc2 = ctx.createOscillator();
+                    const gain2 = ctx.createGain();
+                    osc2.connect(gain2);
+                    gain2.connect(ctx.destination);
+                    osc2.frequency.value = 1500;
+                    gain2.gain.value = 0.08;
+                    osc2.start(ctx.currentTime + 0.10);
+                    osc2.stop(ctx.currentTime + 0.22);
+                } else if (type === 'error') {
+                    osc.frequency.value = 300;
+                    gain.gain.value = 0.10;
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.20);
+                } else if (type === 'page') {
+                    osc.frequency.value = 600;
+                    gain.gain.value = 0.06;
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.10);
+                }
+            } catch (e) {}
+        }
+
+        // ================= TEXT-TO-SPEECH =================
+        function speakBritish(text) {
+            try {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-GB';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.0;
+                    const voices = window.speechSynthesis.getVoices();
+                    const britishVoice = voices.find(v => v.lang === 'en-GB' && v.name.includes('Google'));
+                    if (britishVoice) {
+                        utterance.voice = britishVoice;
+                    } else {
+                        const anyBritish = voices.find(v => v.lang === 'en-GB');
+                        if (anyBritish) utterance.voice = anyBritish;
+                    }
+                    window.speechSynthesis.speak(utterance);
+                }
+            } catch (e) {}
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        // ================= SHUFFLE =================
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        // ================= PAGE SWITCHING =================
+        const pages = {
+            cover: document.getElementById('page-cover'),
+            vocab: document.getElementById('page-vocab'),
+            grammar: document.getElementById('page-grammar'),
+            reading: document.getElementById('page-reading')
+        };
+
+        function showPage(pageId) {
+            Object.keys(pages).forEach(k => pages[k].classList.toggle('active', k === pageId));
+            playSound('page');
+        }
+
+        document.querySelectorAll('[data-page]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                showPage(this.dataset.page);
+            });
+        });
+
+        // ================= SUB-TABS =================
+        document.querySelectorAll('.sub-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const target = this.dataset.sub;
+                document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+                document.getElementById('sub-' + target).classList.add('active');
+                playSound('click');
+            });
+        });
+
+        // ================= GRAMMAR TABS =================
+        document.querySelectorAll('.grammar-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.grammar-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const target = this.dataset.grammar;
+                document.querySelectorAll('.grammar-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('grammar-' + target).classList.add('active');
+                playSound('click');
+            });
+        });
+
+        // ================= VOCAB: MATCH =================
+        const hobbyList = [
+            { id: 'ufo', name: 'UFO hunting' },
+            { id: 'ghost', name: 'Ghost hunting' },
+            { id: 'robot', name: 'Robot building' },
+            { id: 'tornado', name: 'Tornado chasing' },
+            { id: 'metal', name: 'Metal detecting' }
+        ];
+
+        const hobbyActions = [
+            { id: 'ufo_a', text: 'investigates sightings and analyses videos' },
+            { id: 'ghost_a', text: 'looks for ghosts in old buildings' },
+            { id: 'robot_a', text: 'constructs robots from parts' },
+            { id: 'tornado_a', text: 'follows tornadoes to study them' },
+            { id: 'metal_a', text: 'searches for metal objects in the ground' }
+        ];
+
+        const hobbyPairs = {
+            ufo: 'ufo_a', ghost: 'ghost_a', robot: 'robot_a',
+            tornado: 'tornado_a', metal: 'metal_a'
+        };
+
+        const hobbyColors = {
+            ufo: '#4dabf7', ghost: '#cc5de8', robot: '#51cf66',
+            tornado: '#ffa94d', metal: '#fcc419'
+        };
+
+        let selectedHobbyId = null;
+        let matchedHobbiesState = {};
+        let shuffledActions = shuffleArray(hobbyActions);
+
+        const hobbiesContainer = document.getElementById('hobbiesContainer');
+        const hobbyActionsContainer = document.getElementById('actionsContainer');
+        const matchScore = document.getElementById('matchScore');
+
+        function renderMatch() {
+            hobbiesContainer.innerHTML = '';
+            hobbyList.forEach(h => {
+                const btn = document.createElement('button');
+                btn.className = 'hobby-btn';
+                btn.textContent = h.name;
+                btn.dataset.hobbyId = h.id;
+                if (matchedHobbiesState[h.id]) {
+                    btn.classList.add('matched');
+                    btn.style.borderColor = hobbyColors[h.id] || '#4dabf7';
+                    btn.style.color = hobbyColors[h.id] || '#4dabf7';
+                } else if (selectedHobbyId === h.id) {
+                    btn.classList.add('selected');
+                }
+                btn.addEventListener('click', () => onHobbyClick(h.id));
+                hobbiesContainer.appendChild(btn);
+            });
+
+            hobbyActionsContainer.innerHTML = '';
+            shuffledActions.forEach(a => {
+                const btn = document.createElement('button');
+                btn.className = 'action-btn';
+                btn.textContent = a.text;
+                btn.dataset.actionId = a.id;
+                const matchedHobby = Object.keys(matchedHobbiesState).find(h => matchedHobbiesState[h] === a.id);
+                if (matchedHobby) {
+                    btn.classList.add('matched');
+                    btn.style.borderColor = hobbyColors[matchedHobby] || '#4dabf7';
+                    btn.style.color = hobbyColors[matchedHobby] || '#4dabf7';
+                }
+                btn.addEventListener('click', () => onHobbyActionClick(a.id));
+                hobbyActionsContainer.appendChild(btn);
+            });
+
+            const total = Object.keys(hobbyPairs).length;
+            const done = Object.keys(matchedHobbiesState).length;
+            matchScore.textContent = `Matches: ${done} / ${total}`;
+        }
+
+        function onHobbyClick(hobbyId) {
+            if (matchedHobbiesState[hobbyId]) { playSound('click'); return; }
+            if (selectedHobbyId === hobbyId) { selectedHobbyId = null; renderMatch(); return; }
+            selectedHobbyId = hobbyId;
+            playSound('click');
+            renderMatch();
+        }
+
+        function onHobbyActionClick(actionId) {
+            if (Object.values(matchedHobbiesState).includes(actionId)) { playSound('click'); return; }
+            if (!selectedHobbyId) {
+                playSound('error');
+                document.querySelectorAll('.action-btn').forEach(b => {
+                    if (b.dataset.actionId === actionId) {
+                        b.classList.add('wrong');
+                        setTimeout(() => b.classList.remove('wrong'), 400);
+                    }
+                });
+                return;
+            }
+            const expected = hobbyPairs[selectedHobbyId];
+            if (actionId === expected) {
+                matchedHobbiesState[selectedHobbyId] = actionId;
+                playSound('success');
+                selectedHobbyId = null;
+                renderMatch();
+            } else {
+                playSound('error');
+                selectedHobbyId = null;
+                renderMatch();
+            }
+        }
+
+        document.getElementById('resetMatchBtn').addEventListener('click', () => {
+            selectedHobbyId = null;
+            matchedHobbiesState = {};
+            shuffledActions = shuffleArray(hobbyActions);
+            playSound('click');
+            renderMatch();
+        });
+
+        renderMatch();
+
+        // ================= VOCAB: SORT =================
+        const sortCategoriesList = [
+            { id: 'outdoor', label: 'outdoor', color: '#51cf66' },
+            { id: 'indoor', label: 'indoor', color: '#4dabf7' },
+            { id: 'equipment', label: 'needs equipment', color: '#ffa94d' },
+            { id: 'dangerous', label: 'dangerous', color: '#ff6b6b' }
+        ];
+
+        let sortState = {};
+        let draggedHobbyId = null;
+
+        function initSort() {
+            sortCategoriesList.forEach(c => sortState[c.id] = []);
+            renderSort();
+        }
+
+        function renderSort() {
+            const pool = document.getElementById('sortPool');
+            pool.innerHTML = '';
+            hobbyList.forEach(h => {
+                const el = document.createElement('div');
+                el.className = 'sort-job-item';
+                el.textContent = h.name;
+                el.draggable = true;
+                el.dataset.hobbyId = h.id;
+                const color = hobbyColors[h.id] || '#4dabf7';
+                el.style.background = color + '40';
+                el.style.borderColor = color;
+                el.style.color = '#fff';
+                el.addEventListener('dragstart', (e) => {
+                    draggedHobbyId = h.id;
+                    el.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                el.addEventListener('dragend', () => {
+                    el.classList.remove('dragging');
+                    draggedHobbyId = null;
+                });
+                pool.appendChild(el);
+            });
+
+            const container = document.getElementById('sortCategories');
+            container.innerHTML = '';
+            sortCategoriesList.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'sort-category';
+                div.dataset.categoryId = cat.id;
+                div.style.borderColor = cat.color + '60';
+
+                div.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    div.classList.add('drag-over');
+                    div.style.borderColor = cat.color;
+                });
+                div.addEventListener('dragleave', () => {
+                    div.classList.remove('drag-over');
+                    div.style.borderColor = cat.color + '60';
+                });
+                div.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    div.classList.remove('drag-over');
+                    div.style.borderColor = cat.color + '60';
+                    if (draggedHobbyId) {
+                        if (!sortState[cat.id].includes(draggedHobbyId)) {
+                            sortState[cat.id].push(draggedHobbyId);
+                            renderSort();
+                            playSound('click');
+                        }
+                    }
+                });
+
+                const title = document.createElement('h4');
+                title.textContent = cat.label;
+                title.style.color = cat.color;
+                div.appendChild(title);
+
+                const itemsDiv = document.createElement('div');
+                itemsDiv.className = 'dropped-items';
+                (sortState[cat.id] || []).forEach(hobbyId => {
+                    const hobby = hobbyList.find(h => h.id === hobbyId);
+                    if (hobby) {
+                        const color = hobbyColors[hobbyId] || '#4dabf7';
+                        const span = document.createElement('span');
+                        span.className = 'dropped-item';
+                        span.textContent = hobby.name;
+                        span.style.background = color + '30';
+                        span.style.borderColor = color;
+                        span.style.color = '#fff';
+                        const remove = document.createElement('span');
+                        remove.className = 'remove-btn';
+                        remove.textContent = '×';
+                        remove.style.color = '#ff6b6b';
+                        remove.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            sortState[cat.id] = sortState[cat.id].filter(id => id !== hobbyId);
+                            renderSort();
+                            playSound('click');
+                        });
+                        span.appendChild(remove);
+                        itemsDiv.appendChild(span);
+                    }
+                });
+                div.appendChild(itemsDiv);
+                container.appendChild(div);
+            });
+        }
+
+        document.getElementById('resetSortBtn').addEventListener('click', () => {
+            sortState = {};
+            sortCategoriesList.forEach(c => sortState[c.id] = []);
+            renderSort();
+            playSound('click');
+        });
+
+        initSort();
+
+        // ================= UFO MATCH (Reading) =================
+        const ufoWords = [
+            { id: 'fascinated', text: 'fascinated' },
+            { id: 'curious', text: 'curious' },
+            { id: 'investigate', text: 'investigate' },
+            { id: 'sighting', text: 'sighting' },
+            { id: 'witness', text: 'witness' },
+            { id: 'analyse', text: 'analyse' },
+            { id: 'hotspot', text: 'hotspot' },
+            { id: 'device', text: 'device' },
+            { id: 'take_up', text: 'take up' }
+        ];
+
+        const ufoMeanings = [
+            { id: 'fascinated', text: 'very interested' },
+            { id: 'curious', text: 'wanting to know more' },
+            { id: 'investigate', text: 'to find out more about something' },
+            { id: 'sighting', text: 'when you see something unusual' },
+            { id: 'witness', text: 'a person who sees something' },
+            { id: 'analyse', text: 'to study carefully' },
+            { id: 'hotspot', text: 'a place where something often happens' },
+            { id: 'device', text: 'a piece of equipment' },
+            { id: 'take_up', text: 'to start doing something' }
+        ];
+
+        const ufoColors = {
+            fascinated: '#ff6b9d', curious: '#4dabf7', investigate: '#51cf66',
+            sighting: '#ffa94d', witness: '#cc5de8', analyse: '#fcc419',
+            hotspot: '#e03131', device: '#22b8cf', take_up: '#b197fc'
+        };
+
+        let selectedUfoWordId = null;
+        let matchedUfoState = {};
+        let shuffledUfoMeanings = shuffleArray(ufoMeanings);
+
+        const ufoWordsContainer = document.getElementById('ufoWordsContainer');
+        const ufoMeaningsContainer = document.getElementById('ufoMeaningsContainer');
+        const ufoMatchScore = document.getElementById('ufoMatchScore');
+
+        function renderUfoMatch() {
+            ufoWordsContainer.innerHTML = '';
+            ufoWords.forEach(w => {
+                const btn = document.createElement('button');
+                btn.className = 'hobby-btn';
+                btn.textContent = w.text;
+                btn.dataset.ufoId = w.id;
+                if (matchedUfoState[w.id]) {
+                    btn.classList.add('matched');
+                    btn.style.borderColor = ufoColors[w.id] || '#4dabf7';
+                    btn.style.color = ufoColors[w.id] || '#4dabf7';
+                } else if (selectedUfoWordId === w.id) {
+                    btn.classList.add('selected');
+                }
+                btn.addEventListener('click', () => onUfoWordClick(w.id));
+                ufoWordsContainer.appendChild(btn);
+            });
+
+            ufoMeaningsContainer.innerHTML = '';
+            shuffledUfoMeanings.forEach(m => {
+                const btn = document.createElement('button');
+                btn.className = 'action-btn';
+                btn.textContent = m.text;
+                btn.dataset.meaningId = m.id;
+                const matchedWord = Object.keys(matchedUfoState).find(w => matchedUfoState[w] === m.id);
+                if (matchedWord) {
+                    btn.classList.add('matched');
+                    btn.style.borderColor = ufoColors[matchedWord] || '#4dabf7';
+                    btn.style.color = ufoColors[matchedWord] || '#4dabf7';
+                }
+                btn.addEventListener('click', () => onUfoMeaningClick(m.id));
+                ufoMeaningsContainer.appendChild(btn);
+            });
+
+            const total = ufoWords.length;
+            const done = Object.keys(matchedUfoState).length;
+            ufoMatchScore.textContent = `Matches: ${done} / ${total}`;
+        }
+
+        function onUfoWordClick(wordId) {
+            if (matchedUfoState[wordId]) { playSound('click'); return; }
+            if (selectedUfoWordId === wordId) { selectedUfoWordId = null; renderUfoMatch(); return; }
+            selectedUfoWordId = wordId;
+            playSound('click');
+            renderUfoMatch();
+        }
+
+        function onUfoMeaningClick(meaningId) {
+            if (Object.values(matchedUfoState).includes(meaningId)) { playSound('click'); return; }
+            if (!selectedUfoWordId) { playSound('error'); return; }
+            if (meaningId === selectedUfoWordId) {
+                matchedUfoState[selectedUfoWordId] = meaningId;
+                playSound('success');
+                selectedUfoWordId = null;
+                renderUfoMatch();
+            } else {
+                playSound('error');
+                selectedUfoWordId = null;
+                renderUfoMatch();
+            }
+        }
+
+        document.getElementById('resetUfoMatchBtn').addEventListener('click', () => {
+            selectedUfoWordId = null;
+            matchedUfoState = {};
+            shuffledUfoMeanings = shuffleArray(ufoMeanings);
+            playSound('click');
+            renderUfoMatch();
+        });
+
+        renderUfoMatch();
+
+        // ================= UFO GAP-FILL =================
+        const gapSentences = [
+            { q: 'Nick is ______ by the possibility of life on other planets.', answer: 'fascinated' },
+            { q: 'He is a very ______ person, so he wants to find an explanation.', answer: 'curious' },
+            { q: 'His UFO club mostly ______ sightings.', answer: 'investigates' },
+            { q: 'They interview ______ and analyse videos and photos.', answer: 'witnesses' },
+            { q: 'They ______ videos and photos carefully.', answer: 'analyse' },
+            { q: 'Sometimes they go out to a UFO ______.', answer: 'hotspot' },
+            { q: 'They use camcorders, cameras, telescopes, and other ______.', answer: 'devices' },
+            { q: 'Anyone can ______ UFO hunting.', answer: 'take up' },
+            { q: 'You need to be enthusiastic and ______.', answer: 'patient' }
+        ];
+
+        function renderGap() {
+            const container = document.getElementById('gapContainer');
+            container.innerHTML = '';
+            gapSentences.forEach((s, idx) => {
+                const div = document.createElement('div');
+                div.className = 'ex-item';
+                div.innerHTML = `<span>${idx + 1}. ${s.q.replace('______', '')}</span>
+                    <input type="text" class="ex-input" data-answer="${s.answer}" placeholder="..." style="width:160px;" />
+                    <span class="ex-feedback"></span>`;
+                container.appendChild(div);
+            });
+        }
+
+        document.getElementById('checkGapBtn').addEventListener('click', () => {
+            const inputs = document.querySelectorAll('#gapContainer .ex-input');
+            let allCorrect = true;
+            inputs.forEach((input) => {
+                const fb = input.parentElement.querySelector('.ex-feedback');
+                const userAns = input.value.trim().toLowerCase();
+                const correct = input.dataset.answer.toLowerCase();
+                if (userAns === correct) {
+                    fb.textContent = '✅';
+                    fb.className = 'ex-feedback correct';
+                    input.style.borderColor = '#51cf66';
+                } else {
+                    fb.textContent = '❌';
+                    fb.className = 'ex-feedback wrong';
+                    input.style.borderColor = '#ff6b6b';
+                    allCorrect = false;
+                }
+            });
+            if (allCorrect) playSound('success');
+            else playSound('error');
+        });
+
+        renderGap();
+
+        // ================= STATIVE SORT =================
+        const stativeVerbs = [
+            { id: 'like', word: 'like', category: 'stative' },
+            { id: 'love', word: 'love', category: 'stative' },
+            { id: 'hate', word: 'hate', category: 'stative' },
+            { id: 'want', word: 'want', category: 'stative' },
+            { id: 'need', word: 'need', category: 'stative' },
+            { id: 'know', word: 'know', category: 'stative' },
+            { id: 'understand', word: 'understand', category: 'stative' },
+            { id: 'believe', word: 'believe', category: 'stative' },
+            { id: 'remember', word: 'remember', category: 'stative' },
+            { id: 'own', word: 'own', category: 'stative' },
+            { id: 'belong', word: 'belong', category: 'stative' },
+            { id: 'work', word: 'work', category: 'dynamic' },
+            { id: 'train', word: 'train', category: 'dynamic' },
+            { id: 'parachute', word: 'parachute', category: 'dynamic' },
+            { id: 'fight', word: 'fight', category: 'dynamic' },
+            { id: 'investigate', word: 'investigate', category: 'dynamic' },
+            { id: 'analyse', word: 'analyse', category: 'dynamic' },
+            { id: 'interview', word: 'interview', category: 'dynamic' },
+            { id: 'think', word: 'think', category: 'both' },
+            { id: 'have', word: 'have', category: 'both' }
+        ];
+
+        const stativeCategories = [
+            { id: 'stative', label: 'Stative', color: '#4dabf7' },
+            { id: 'dynamic', label: 'Dynamic', color: '#ffa94d' },
+            { id: 'both', label: 'Both', color: '#cc5de8' }
+        ];
+
+        let stativeSortState = {};
+        let selectedStativeVerb = null;
+
+        function initStativeSort() {
+            stativeCategories.forEach(c => stativeSortState[c.id] = []);
+            renderStativeSort();
+        }
+
+        function renderStativeSort() {
+            const pool = document.getElementById('stativePool');
+            pool.innerHTML = '';
+            stativeVerbs.forEach(v => {
+                const btn = document.createElement('div');
+                btn.className = 'stative-word-btn';
+                btn.textContent = v.word;
+                btn.dataset.verbId = v.id;
+                const isSorted = Object.values(stativeSortState).some(arr => arr.includes(v.id));
+                if (isSorted) btn.classList.add('sorted');
+                if (selectedStativeVerb === v.id) btn.classList.add('selected');
+                btn.addEventListener('click', () => onStativeWordClick(v.id));
+                pool.appendChild(btn);
+            });
+
+            const container = document.getElementById('stativeCategories');
+            container.innerHTML = '';
+            stativeCategories.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'stative-category';
+                div.dataset.categoryId = cat.id;
+                div.style.borderColor = cat.color + '60';
+                div.addEventListener('click', () => onStativeCategoryClick(cat.id));
+
+                const title = document.createElement('h4');
+                title.textContent = cat.label;
+                title.style.color = cat.color;
+                div.appendChild(title);
+
+                const itemsDiv = document.createElement('div');
+                itemsDiv.className = 'dropped-items';
+                (stativeSortState[cat.id] || []).forEach(verbId => {
+                    const verb = stativeVerbs.find(v => v.id === verbId);
+                    if (verb) {
+                        const span = document.createElement('span');
+                        span.className = 'dropped-item';
+                        span.textContent = verb.word;
+                        span.style.background = cat.color + '30';
+                        span.style.borderColor = cat.color;
+                        span.style.color = '#fff';
+                        itemsDiv.appendChild(span);
+                    }
+                });
+                div.appendChild(itemsDiv);
+                container.appendChild(div);
+            });
+
+            const total = stativeVerbs.length;
+            const done = Object.values(stativeSortState).reduce((acc, arr) => acc + arr.length, 0);
+            document.getElementById('stativeSortScore').textContent = `Sorted: ${done} / ${total}`;
+        }
+
+        function onStativeWordClick(verbId) {
+            if (Object.values(stativeSortState).some(arr => arr.includes(verbId))) return;
+            if (selectedStativeVerb === verbId) {
+                selectedStativeVerb = null;
+            } else {
+                selectedStativeVerb = verbId;
+                playSound('click');
+            }
+            renderStativeSort();
+        }
+
+        function onStativeCategoryClick(catId) {
+            if (!selectedStativeVerb) {
+                playSound('error');
+                return;
+            }
+            stativeSortState[catId].push(selectedStativeVerb);
+            selectedStativeVerb = null;
+            playSound('success');
+            renderStativeSort();
+        }
+
+        document.getElementById('resetStativeSortBtn').addEventListener('click', () => {
+            stativeSortState = {};
+            selectedStativeVerb = null;
+            stativeCategories.forEach(c => stativeSortState[c.id] = []);
+            document.getElementById('stativeSortFeedback').textContent = '';
+            renderStativeSort();
+            playSound('click');
+        });
+
+        initStativeSort();
+
+        // ================= TIMELINE SORT (Reasons) =================
+        const timelineItems = [
+            { id: 'permanent_states', text: 'permanent states', category: 'present_simple' },
+            { id: 'habits_routines', text: 'habits / routines', category: 'present_simple' },
+            { id: 'timetables', text: 'timetables', category: 'present_simple' },
+            { id: 'actions_now', text: 'actions happening now', category: 'present_continuous' },
+            { id: 'temporary', text: 'temporary situations', category: 'present_continuous' },
+            { id: 'future_arr', text: 'future arrangements', category: 'present_continuous' }
+        ];
+
+        const timelineCategories = [
+            { id: 'present_simple', label: 'Present Simple', color: '#4dabf7' },
+            { id: 'present_continuous', label: 'Present Continuous', color: '#ffa94d' }
+        ];
+
+        let timelineSortState = {};
+        let selectedTimelineItem = null;
+
+        function initTimelineSort() {
+            timelineCategories.forEach(c => timelineSortState[c.id] = []);
+            renderTimelineSort();
+        }
+
+        function renderTimelineSort() {
+            const pool = document.getElementById('timelinePool');
+            pool.innerHTML = '';
+            timelineItems.forEach(item => {
+                const btn = document.createElement('div');
+                btn.className = 'timeline-word-btn';
+                btn.textContent = item.text;
+                btn.dataset.itemId = item.id;
+                const isSorted = Object.values(timelineSortState).some(arr => arr.includes(item.id));
+                if (isSorted) btn.classList.add('sorted');
+                if (selectedTimelineItem === item.id) btn.classList.add('selected');
+                btn.addEventListener('click', () => onTimelineItemClick(item.id));
+                pool.appendChild(btn);
+            });
+
+            const container = document.getElementById('timelineCategories');
+            container.innerHTML = '';
+            timelineCategories.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'timeline-category';
+                div.dataset.categoryId = cat.id;
+                div.style.borderColor = cat.color + '60';
+                div.addEventListener('click', () => onTimelineCategoryClick(cat.id));
+
+                const title = document.createElement('h4');
+                title.textContent = cat.label;
+                title.style.color = cat.color;
+                div.appendChild(title);
+
+                const itemsDiv = document.createElement('div');
+                itemsDiv.className = 'dropped-items';
+                (timelineSortState[cat.id] || []).forEach(itemId => {
+                    const item = timelineItems.find(i => i.id === itemId);
+                    if (item) {
+                        const span = document.createElement('span');
+                        span.className = 'dropped-item';
+                        span.textContent = item.text;
+                        span.style.background = cat.color + '30';
+                        span.style.borderColor = cat.color;
+                        span.style.color = '#fff';
+                        itemsDiv.appendChild(span);
+                    }
+                });
+                div.appendChild(itemsDiv);
+                container.appendChild(div);
+            });
+
+            const total = timelineItems.length;
+            const done = Object.values(timelineSortState).reduce((acc, arr) => acc + arr.length, 0);
+            document.getElementById('timelineSortScore').textContent = `Sorted: ${done} / ${total}`;
+        }
+
+        function onTimelineItemClick(itemId) {
+            if (Object.values(timelineSortState).some(arr => arr.includes(itemId))) return;
+            if (selectedTimelineItem === itemId) {
+                selectedTimelineItem = null;
+            } else {
+                selectedTimelineItem = itemId;
+                playSound('click');
+            }
+            renderTimelineSort();
+        }
+
+        function onTimelineCategoryClick(catId) {
+            if (!selectedTimelineItem) {
+                playSound('error');
+                return;
+            }
+            timelineSortState[catId].push(selectedTimelineItem);
+            selectedTimelineItem = null;
+            playSound('success');
+            renderTimelineSort();
+        }
+
+        document.getElementById('resetTimelineSortBtn').addEventListener('click', () => {
+            timelineSortState = {};
+            selectedTimelineItem = null;
+            timelineCategories.forEach(c => timelineSortState[c.id] = []);
+            document.getElementById('timelineSortFeedback').textContent = '';
+            renderTimelineSort();
+            playSound('click');
+        });
+
+        initTimelineSort();
+
+        // ================= CHECK EXERCISES =================
+        function attachCheck(containerId, btnId) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                const container = document.getElementById(containerId);
+                const inputs = container.querySelectorAll('.ex-input');
+                let allCorrect = true;
+                inputs.forEach((input) => {
+                    const fb = input.parentElement.querySelector('.ex-feedback');
+                    const userAns = input.value.trim().toLowerCase();
+                    const correct = input.dataset.answer.toLowerCase();
+                    if (userAns === correct) {
+                        fb.textContent = '✅';
+                        fb.className = 'ex-feedback correct';
+                        input.style.borderColor = '#51cf66';
+                    } else {
+                        fb.textContent = '❌';
+                        fb.className = 'ex-feedback wrong';
+                        input.style.borderColor = '#ff6b6b';
+                        allCorrect = false;
+                    }
+                });
+                if (allCorrect) playSound('success');
+                else playSound('error');
+            });
+        }
+
+        attachCheck('grammar-stative', 'checkStativeExtraBtn');
+        attachCheck('grammar-stative', 'checkStativeMistakesBtn');
+        attachCheck('grammar-present', 'checkPresentBtn');
+
+        // ================= READING: TRUE/FALSE =================
+        document.querySelectorAll('.tf-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const item = this.closest('.tf-item');
+                const correct = this.dataset.correct;
+                const chosen = this.dataset.tf;
+
+                item.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('correct', 'wrong', 'selected'));
+                this.classList.add('selected');
+
+                const chosenBtn = item.querySelector(`.tf-btn[data-tf="${chosen}"]`);
+                if (chosen === correct) {
+                    chosenBtn.classList.remove('selected');
+                    chosenBtn.classList.add('correct');
+                    playSound('success');
+                } else {
+                    chosenBtn.classList.remove('selected');
+                    chosenBtn.classList.add('wrong');
+                    const correctBtn = item.querySelector(`.tf-btn[data-tf="${correct}"]`);
+                    if (correctBtn) correctBtn.classList.add('correct');
+                    playSound('error');
+                }
+            });
+        });
+
+        // ================= READING: WORD SPEAK =================
+        document.querySelectorAll('.reading-text .word').forEach(word => {
+            word.addEventListener('click', function() {
+                speakBritish(this.textContent);
+                playSound('click');
+            });
+        });
+
+        // ================= START =================
+        showPage('cover');
+    </script>
+
+</body>
+</html>
