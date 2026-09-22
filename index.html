@@ -1239,12 +1239,12 @@
                         <span>fascinated</span>
                         <span>curious</span>
                         <span>investigate</span>
-                        <span>sighting</span>
                         <span>witness</span>
                         <span>analyse</span>
                         <span>hotspot</span>
                         <span>device</span>
                         <span>take up</span>
+                        <span>patient</span>
                     </div>
                     <div id="gapContainer"></div>
                     <button class="check-ex-btn" id="checkGapBtn" style="margin-top:16px;">✅ Check all</button>
@@ -1282,6 +1282,10 @@
                         <button class="tf-btn" data-tf="true" data-correct="NS">T</button>
                         <button class="tf-btn" data-tf="false" data-correct="NS">F</button>
                         <button class="tf-btn" data-tf="ns" data-correct="NS">NS</button>
+                    </div>
+                    <div class="footer-row" style="margin-top:16px;padding-top:16px;justify-content:center;">
+                        <button class="check-ex-btn" id="checkTFPostBtn">✅ Check</button>
+                        <span class="score" id="tfPostResult"></span>
                     </div>
                 </div>
 
@@ -2098,30 +2102,62 @@
         attachCheck('grammar-stative', 'checkStativeMistakesBtn');
         attachCheck('grammar-present', 'checkPresentBtn');
 
-        // ================= READING: TRUE/FALSE =================
+        // ================= TRUE/FALSE — единый обработчик =================
+        // Для ВСЕХ tf-btn (включая Post-reading): клик только помечает selected.
+        // Проверка идёт ТОЛЬКО по кнопке Check (для Post-reading).
         document.querySelectorAll('.tf-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const item = this.closest('.tf-item');
-                const correct = this.dataset.correct;
-                const chosen = this.dataset.tf;
-
                 item.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('correct', 'wrong', 'selected'));
                 this.classList.add('selected');
-
-                const chosenBtn = item.querySelector(`.tf-btn[data-tf="${chosen}"]`);
-                if (chosen === correct) {
-                    chosenBtn.classList.remove('selected');
-                    chosenBtn.classList.add('correct');
-                    playSound('success');
-                } else {
-                    chosenBtn.classList.remove('selected');
-                    chosenBtn.classList.add('wrong');
-                    const correctBtn = item.querySelector(`.tf-btn[data-tf="${correct}"]`);
-                    if (correctBtn) correctBtn.classList.add('correct');
-                    playSound('error');
-                }
+                playSound('click');
             });
         });
+
+        // ================= POST-READING: TRUE/FALSE/NS CHECK =================
+        const tfPostBtn = document.getElementById('checkTFPostBtn');
+        if (tfPostBtn) {
+            tfPostBtn.addEventListener('click', () => {
+                const postReading = document.getElementById('sub-post-reading');
+                const items = postReading.querySelectorAll('.tf-item');
+                let correct = 0;
+                let total = items.length;
+
+                const mapAns = (ans) => {
+                    if (ans === 'T') return 'true';
+                    if (ans === 'F') return 'false';
+                    if (ans === 'NS') return 'ns';
+                    return ans;
+                };
+
+                items.forEach(item => {
+                    const correctRaw = item.querySelector('.tf-btn')?.dataset.correct;
+                    const correctAns = mapAns(correctRaw);
+
+                    const selected = item.querySelector('.tf-btn.selected');
+                    const btns = item.querySelectorAll('.tf-btn');
+
+                    // Снимаем старые подсветки, НО НЕ selected
+                    btns.forEach(b => b.classList.remove('correct', 'wrong'));
+
+                    if (!selected) return;
+
+                    if (selected.dataset.tf === correctAns) {
+                        selected.classList.add('correct');
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                        const correctBtn = item.querySelector(`.tf-btn[data-tf="${correctAns}"]`);
+                        if (correctBtn) correctBtn.classList.add('correct');
+                    }
+                });
+
+                const resultEl = document.getElementById('tfPostResult');
+                resultEl.textContent = `✅ ${correct} / ${total}`;
+                if (correct === total) playSound('success');
+                else playSound('error');
+            });
+        }
 
         // ================= READING: WORD SPEAK =================
         document.querySelectorAll('.reading-text .word').forEach(word => {
